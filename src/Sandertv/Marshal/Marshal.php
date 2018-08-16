@@ -46,6 +46,19 @@ class Marshal{
 	}
 
 	/**
+	 * Yaml encodes $obj to YAML and writes it to $file, using $encoding and $linebreak according to the specifications
+	 * of YAML.
+	 *
+	 * @param string $file to write the encoded YAML to.
+	 * @param object $obj to encode to YAML.
+	 * @param int    $encoding to use to encode $obj.
+	 * @param int    $linebreak to use for newlines.
+	 */
+	public static function YamlFile(string $file, object $obj, int $encoding = YAML_ANY_ENCODING, int $linebreak = YAML_ANY_BREAK){
+		file_put_contents($file, self::Yaml($obj, $encoding, $linebreak));
+	}
+
+	/**
 	 * objToArray converts an object to an array, so that functions such as yaml_emit can use them.
 	 *
 	 * @param mixed $obj
@@ -60,18 +73,5 @@ class Marshal{
 			return array_map('self::objToArray', $obj);
 		}
 		return $obj;
-	}
-
-	/**
-	 * Yaml encodes $obj to YAML and writes it to $file, using $encoding and $linebreak according to the specifications
-	 * of YAML.
-	 *
-	 * @param string $file to write the encoded YAML to.
-	 * @param object $obj to encode to YAML.
-	 * @param int    $encoding to use to encode $obj.
-	 * @param int    $linebreak to use for newlines.
-	 */
-	public static function YamlFile(string $file, object $obj, int $encoding = YAML_ANY_ENCODING, int $linebreak = YAML_ANY_BREAK){
-		file_put_contents($file, self::Yaml($obj, $encoding, $linebreak));
 	}
 }
