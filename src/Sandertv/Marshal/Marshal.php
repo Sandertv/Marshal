@@ -9,9 +9,9 @@ class Marshal{
 	/**
 	 * Json encodes $obj to JSON and returns it, using the provided $options.
 	 *
-	 * @param object $obj to encode to JSON.
-	 * @param int    $options for changing the output JSON.
-	 * @param int    $depth maximum nesting depth, must be greater than 0.
+	 * @param \object $obj to encode to JSON.
+	 * @param int     $options for changing the output JSON.
+	 * @param int     $depth maximum nesting depth, must be greater than 0.
 	 *
 	 * @return string of JSON.
 	 */
@@ -22,10 +22,10 @@ class Marshal{
 	/**
 	 * JsonFile encodes $obj to JSON and returns it using the provided $options. The output is written to $file.
 	 *
-	 * @param string $file to write the JSON string to.
-	 * @param object $obj to encode to JSON.
-	 * @param int    $options for changing the output JSON.
-	 * @param int    $depth maximum nesting depth, must be greater than 0.
+	 * @param string  $file to write the JSON string to.
+	 * @param \object $obj to encode to JSON.
+	 * @param int     $options for changing the output JSON.
+	 * @param int     $depth maximum nesting depth, must be greater than 0.
 	 */
 	public static function JsonFile(string $file, object $obj, int $options = 0, int $depth = 512){
 		file_put_contents($file, self::JSON($obj, $options, $depth));
@@ -34,9 +34,9 @@ class Marshal{
 	/**
 	 * Yaml encodes $obj to YAML and returns it, using $encoding and $linebreak according to the specifications of YAML.
 	 *
-	 * @param object $obj to encode to YAML.
-	 * @param int    $encoding to use to encode $obj.
-	 * @param int    $linebreak to use for newlines.
+	 * @param \object $obj to encode to YAML.
+	 * @param int     $encoding to use to encode $obj.
+	 * @param int     $linebreak to use for newlines.
 	 *
 	 * @return string of YAML encoded data.
 	 */
@@ -49,10 +49,10 @@ class Marshal{
 	 * Yaml encodes $obj to YAML and writes it to $file, using $encoding and $linebreak according to the specifications
 	 * of YAML.
 	 *
-	 * @param string $file to write the encoded YAML to.
-	 * @param object $obj to encode to YAML.
-	 * @param int    $encoding to use to encode $obj.
-	 * @param int    $linebreak to use for newlines.
+	 * @param string  $file to write the encoded YAML to.
+	 * @param \object $obj to encode to YAML.
+	 * @param int     $encoding to use to encode $obj.
+	 * @param int     $linebreak to use for newlines.
 	 */
 	public static function YamlFile(string $file, object $obj, int $encoding = YAML_ANY_ENCODING, int $linebreak = YAML_ANY_BREAK){
 		file_put_contents($file, self::Yaml($obj, $encoding, $linebreak));
@@ -65,13 +65,14 @@ class Marshal{
 	 *
 	 * @return mixed
 	 */
-	private static function objToArray($obj) {
-		if (is_object($obj)) {
+	private static function objToArray($obj){
+		if(is_object($obj)){
 			$obj = get_object_vars($obj);
 		}
-		if (is_array($obj)) {
+		if(is_array($obj)){
 			return array_map('self::objToArray', $obj);
 		}
+
 		return $obj;
 	}
 }

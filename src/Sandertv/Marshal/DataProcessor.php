@@ -10,8 +10,8 @@ class DataProcessor{
 	 * put iterates through $data and sets values in $obj of properties that match keys in $data. The
 	 * properties are only set if the types match with the current values of $obj.
 	 *
-	 * @param object $obj
-	 * @param array  $data
+	 * @param \object $obj
+	 * @param array   $data
 	 */
 	public function put(object $obj, array $data){
 		foreach($data as $key => $value){
@@ -26,9 +26,9 @@ class DataProcessor{
 	 * handleProperty handles a property in $obj with index $key. The value $value is the value the property should
 	 * obtain, if their types are compatible.
 	 *
-	 * @param object $obj
-	 * @param string $key
-	 * @param mixed  $value
+	 * @param \object $obj
+	 * @param string  $key
+	 * @param mixed   $value
 	 */
 	private function handleProperty(object $obj, string $key, $value){
 		if(is_object($obj->{$key})){

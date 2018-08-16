@@ -13,8 +13,8 @@ class Unmarshal{
 	/**
 	 * Json decodes a JSON string into $obj.
 	 *
-	 * @param string $json to decode.
-	 * @param object $obj to decode the JSON into.
+	 * @param string  $json to decode.
+	 * @param \object $obj to decode the JSON into.
 	 *
 	 * @throws DecodeException when $json is invalid JSON data.
 	 */
@@ -30,8 +30,8 @@ class Unmarshal{
 	/**
 	 * JsonFile gets the content from $file, and decodes JSON data found in the file into $obj.
 	 *
-	 * @param string $file to parse JSON from.
-	 * @param object $obj to decode the parsed JSON into.
+	 * @param string  $file to parse JSON from.
+	 * @param \object $obj to decode the parsed JSON into.
 	 *
 	 * @throws DecodeException when the JSON from $file is invalid JSON data.
 	 * @throws FileNotFoundException when $file can not be found.
@@ -47,8 +47,8 @@ class Unmarshal{
 	/**
 	 * Yaml decodes YAML string $yaml into object $obj.
 	 *
-	 * @param string $yaml to decode.
-	 * @param object $obj to decode the YAML into.
+	 * @param string  $yaml to decode.
+	 * @param \object $obj to decode the YAML into.
 	 *
 	 * @throws DecodeException when $yaml is invalid YAML data.
 	 */
@@ -64,8 +64,8 @@ class Unmarshal{
 	/**
 	 * YamlFile gets the content from $file and decodes the YAML parsed into $obj.
 	 *
-	 * @param string $file to parse YAML from.
-	 * @param object $obj to decode the parsed YAML into.
+	 * @param string  $file to parse YAML from.
+	 * @param \object $obj to decode the parsed YAML into.
 	 *
 	 * @throws DecodeException if $file's content was no valid YAML.
 	 * @throws FileNotFoundException if $file could not be found.
