@@ -18,7 +18,7 @@ class Unmarshal{
 	 *
 	 * @throws DecodeException when $json is invalid JSON data.
 	 */
-	public static function json(string $json, object $obj){
+	public static function json(string $json, object $obj) : void{
 		$data = json_decode($json, true);
 		if($data === null){
 			throw new DecodeException("Unmarshal::Json: Invalid JSON string provided");
@@ -36,12 +36,12 @@ class Unmarshal{
 	 * @throws DecodeException when the JSON from $file is invalid JSON data.
 	 * @throws FileNotFoundException when $file can not be found.
 	 */
-	public static function jsonFile(string $file, object $obj){
+	public static function jsonFile(string $file, object $obj) : void{
 		if(!file_exists($file)){
 			throw new FileNotFoundException("Unmarshal::JsonFile: File $file could not be found");
 		}
 		$fileContent = file_get_contents($file);
-		self::Json($fileContent, $obj);
+		self::json($fileContent, $obj);
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Unmarshal{
 	 *
 	 * @throws DecodeException when $yaml is invalid YAML data.
 	 */
-	public static function yaml(string $yaml, object $obj){
+	public static function yaml(string $yaml, object $obj) : void{
 		$data = yaml_parse($yaml);
 		if($data === false){
 			throw new DecodeException("Unmarshal::Yaml: Invalid YAML string provided");
@@ -70,11 +70,11 @@ class Unmarshal{
 	 * @throws DecodeException if $file's content was no valid YAML.
 	 * @throws FileNotFoundException if $file could not be found.
 	 */
-	public static function yamlFile(string $file, object $obj){
+	public static function yamlFile(string $file, object $obj) : void{
 		if(!file_exists($file)){
 			throw new FileNotFoundException("Unmarshal::YamlFile: File $file could not be found");
 		}
 		$fileContent = file_get_contents($file);
-		self::Yaml($fileContent, $obj);
+		self::yaml($fileContent, $obj);
 	}
 }

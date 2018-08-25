@@ -16,7 +16,7 @@ class Marshal{
 	 * @return string of JSON.
 	 */
 	public static function json(object $obj, int $options = 0, int $depth = 512) : string{
-		return json_encode($obj, $options, $depth);
+		return json_encode(self::processMarshalTags($obj), $options, $depth);
 	}
 
 	/**
@@ -27,7 +27,7 @@ class Marshal{
 	 * @param int     $options for changing the output JSON.
 	 * @param int     $depth maximum nesting depth, must be greater than 0.
 	 */
-	public static function jsonFile(string $file, object $obj, int $options = 0, int $depth = 512){
+	public static function jsonFile(string $file, object $obj, int $options = 0, int $depth = 512) : void{
 		file_put_contents($file, self::json($obj, $options, $depth));
 	}
 
@@ -42,7 +42,7 @@ class Marshal{
 	 */
 	public static function yaml(object $obj, int $encoding = YAML_ANY_ENCODING, int $linebreak = YAML_ANY_BREAK) : string{
 		// YAML, unlike JSON, cannot write PHP objects properly, so we first change all objects to arrays.
-		return yaml_emit(self::objToArray($obj), $encoding, $linebreak);
+		return yaml_emit(self::objToArray(self::processMarshalTags($obj)), $encoding, $linebreak);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class Marshal{
 	 * @param int     $encoding to use to encode $obj.
 	 * @param int     $linebreak to use for newlines.
 	 */
-	public static function yamlFile(string $file, object $obj, int $encoding = YAML_ANY_ENCODING, int $linebreak = YAML_ANY_BREAK){
+	public static function yamlFile(string $file, object $obj, int $encoding = YAML_ANY_ENCODING, int $linebreak = YAML_ANY_BREAK) : void{
 		file_put_contents($file, self::yaml($obj, $encoding, $linebreak));
 	}
 
@@ -74,5 +74,39 @@ class Marshal{
 		}
 
 		return $obj;
+	}
+
+	/**
+	 * @param \object $obj
+	 *
+	 * @return \object
+	 */
+	private static function processMarshalTags(object $obj) : object{
+		$c = clone($obj);
+		$refl = new \ReflectionObject($c);
+		foreach((array) $c as $propertyName => $value){
+			unset($c->{$propertyName});
+			// Cast the property name to a string because an array with numeric indexes casted to an object may have
+			// integer keys, which causes issues.
+			$tags = DataProcessor::parseDocComment($refl->getProperty((string) $propertyName)->getDocComment());
+			if(isset($tags[DataProcessor::TAG_MARSHAL])){
+				$propertyName = $tags[DataProcessor::TAG_MARSHAL];
+				if($propertyName === "-"){
+					// Leave properties with '-' as marshal name unset and don't set the tag. We created a clone of the
+					// object, so we do not need to set it back.
+					continue;
+				}
+			}
+			if(is_object($value)){
+				$value = self::processMarshalTags($value);
+			}elseif(is_array($value)){
+				// Cast the array to an object and process it recursively in case this array contained any objects, and
+				// cast it back to an array immediately after.
+				$value = (array) self::processMarshalTags((object) $value);
+			}
+			$c->{$propertyName} = $value;
+		}
+
+		return $c;
 	}
 }
