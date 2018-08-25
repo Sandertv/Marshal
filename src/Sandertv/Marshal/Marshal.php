@@ -84,7 +84,12 @@ class Marshal{
 	private static function processMarshalTags(object $obj) : object{
 		$c = clone($obj);
 		$refl = new \ReflectionObject($c);
-		foreach((array) $c as $propertyName => $value){
+		foreach($refl->getProperties() as $property){
+			if(!$property->isPublic()){
+				continue;
+			}
+			$propertyName = $property->name;
+			$value = $property->getValue($c);
 			unset($c->{$propertyName});
 			// Cast the property name to a string because an array with numeric indexes casted to an object may have
 			// integer keys, which causes issues.
