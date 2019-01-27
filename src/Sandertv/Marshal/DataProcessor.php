@@ -46,7 +46,12 @@ class DataProcessor{
 		$refl = new \ReflectionObject($obj);
 		do{
 			if($refl->hasProperty($propertyName)){
-				$tags = self::parseDocComment($refl->getProperty($propertyName)->getDocComment());
+				$property = $refl->getProperty($propertyName);
+				if(is_bool($property->getDocComment())){
+					// No marshal
+					continue;
+				}
+				$tags = self::parseDocComment($property->getDocComment());
 				if(isset($tags[self::TAG_MARSHAL])){
 					if($tags[self::TAG_MARSHAL] !== $propertyName){
 						// The marshal tag is not equal to $propertyName, so this property expects the value of a
@@ -61,7 +66,7 @@ class DataProcessor{
 		}while(false);
 
 		foreach($refl->getProperties() as $property){
-			if($property->getDocComment() === false){
+			if(is_bool($property->getDocComment())){
 				// No marshal
 				continue;
 			}
