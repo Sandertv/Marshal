@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sandertv\Marshal;
 
+use function is_array;
+
 require("DataProcessor.php");
 require("DecodeException.php");
 require("FileNotFoundException.php");
@@ -20,7 +22,7 @@ class Unmarshal{
 	 */
 	public static function json(string $json, object $obj) : void{
 		$data = json_decode($json, true);
-		if($data === null){
+		if(!is_array($data)){
 			throw new DecodeException("Unmarshal::Json: Invalid JSON string provided");
 		}
 		$processor = new DataProcessor();
@@ -54,7 +56,7 @@ class Unmarshal{
 	 */
 	public static function yaml(string $yaml, object $obj) : void{
 		$data = yaml_parse($yaml);
-		if($data === false){
+		if(!is_array($data)){
 			throw new DecodeException("Unmarshal::Yaml: Invalid YAML string provided");
 		}
 		$processor = new DataProcessor();

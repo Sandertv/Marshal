@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sandertv\Marshal;
 
+use function is_array;
+
 class DataProcessor{
 
 	/**
@@ -116,6 +118,11 @@ class DataProcessor{
 
 			return;
 		}elseif(is_array($obj->{$key})){
+			if(!is_array($value)){
+				// The property value was an object, but we didn't have an array as config value. We can't unmarshal
+				// this at all, so just continue.
+				return;
+			}
 			// We temporarily cast this array to an stdClass so we can use the put method for it.
 			$v = (object) $obj->{$key};
 			$this->put($v, $value);
