@@ -93,7 +93,7 @@ class Marshal{
 			unset($c->{$propertyName});
 			// Cast the property name to a string because an array with numeric indexes casted to an object may have
 			// integer keys, which causes issues.
-			$tags = DataProcessor::parseDocComment($refl->getProperty((string) $propertyName)->getDocComment());
+			$tags = DataProcessor::parseDocComment((string) $refl->getProperty((string) $propertyName)->getDocComment());
 			if(isset($tags[DataProcessor::TAG_MARSHAL])){
 				$propertyName = $tags[DataProcessor::TAG_MARSHAL];
 				if($propertyName === "-"){
