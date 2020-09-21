@@ -1,7 +1,9 @@
 ---
 name: Marshal
 antigen: Sandertv\Marshal
-api: 3.0.0
+api: 
+  - 3.0.0
+  - 4.0.0
 version: 1.0.0
 authors: Sandertv
 description: Configuration parsing and emitting in a Go style Marshal/Unmarshal
