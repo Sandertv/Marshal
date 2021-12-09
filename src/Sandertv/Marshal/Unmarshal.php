@@ -6,10 +6,6 @@ namespace Sandertv\Marshal;
 
 use function is_array;
 
-require("DataProcessor.php");
-require("DecodeException.php");
-require("FileNotFoundException.php");
-
 class Unmarshal{
 
 	/**
