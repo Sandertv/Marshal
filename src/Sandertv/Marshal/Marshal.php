@@ -9,9 +9,10 @@ class Marshal{
 	/**
 	 * json encodes $obj to JSON and returns it, using the provided $options.
 	 *
-	 * @param \object $obj to encode to JSON.
+	 * @param object  $obj to encode to JSON.
 	 * @param int     $options for changing the output JSON.
 	 * @param int     $depth maximum nesting depth, must be greater than 0.
+	 * @phpstan-param positive-int $depth
 	 *
 	 * @return string of JSON.
 	 */
@@ -23,9 +24,10 @@ class Marshal{
 	 * jsonFile encodes $obj to JSON and returns it using the provided $options. The output is written to $file.
 	 *
 	 * @param string  $file to write the JSON string to.
-	 * @param \object $obj to encode to JSON.
+	 * @param object  $obj to encode to JSON.
 	 * @param int     $options for changing the output JSON.
 	 * @param int     $depth maximum nesting depth, must be greater than 0.
+	 * @phpstan-param positive-int $depth
 	 */
 	public static function jsonFile(string $file, object $obj, int $options = 0, int $depth = 512) : void{
 		file_put_contents($file, self::json($obj, $options, $depth));
@@ -34,7 +36,7 @@ class Marshal{
 	/**
 	 * yaml encodes $obj to YAML and returns it, using $encoding and $linebreak according to the specifications of YAML.
 	 *
-	 * @param \object $obj to encode to YAML.
+	 * @param object  $obj to encode to YAML.
 	 * @param int     $encoding to use to encode $obj.
 	 * @param int     $linebreak to use for newlines.
 	 *
@@ -50,7 +52,7 @@ class Marshal{
 	 * of YAML.
 	 *
 	 * @param string  $file to write the encoded YAML to.
-	 * @param \object $obj to encode to YAML.
+	 * @param object  $obj to encode to YAML.
 	 * @param int     $encoding to use to encode $obj.
 	 * @param int     $linebreak to use for newlines.
 	 */
@@ -77,9 +79,9 @@ class Marshal{
 	}
 
 	/**
-	 * @param \object $obj
+	 * @param object $obj
 	 *
-	 * @return \object
+	 * @return object
 	 */
 	private static function processMarshalTags(object $obj) : object{
 		$c = clone($obj);

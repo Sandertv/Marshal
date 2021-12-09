@@ -18,8 +18,8 @@ class DataProcessor{
 	 * put iterates through $data and sets values in $obj of properties that match keys in $data. The
 	 * properties are only set if the types match with the current values of $obj.
 	 *
-	 * @param \object $obj
-	 * @param array   $data
+	 * @param object  $obj
+	 * @param mixed[] $data
 	 */
 	public function put(object $obj, array $data) : void{
 		foreach($data as $key => $value){
@@ -39,7 +39,7 @@ class DataProcessor{
 	 * scanFor looks for a property with the given name and returns it if found. If not found, it scans through all
 	 * properties in the object provided and checks if the tag 'marshal' is equal to $propertyName.
 	 *
-	 * @param \object $obj
+	 * @param object $obj
 	 * @param string  $propertyName
 	 *
 	 * @return string
@@ -90,7 +90,7 @@ class DataProcessor{
 	 *
 	 * @param string $docComment
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public static function parseDocComment(string $docComment) : array{
 		preg_match_all('/(*ANYCRLF)^[\t ]*\* @([a-zA-Z]+)(?:[\t ]+(.+))?[\t ]*$/m', $docComment, $matches);
@@ -102,7 +102,7 @@ class DataProcessor{
 	 * handleProperty handles a property in $obj with index $key. The value $value is the value the property should
 	 * obtain, if their types are compatible.
 	 *
-	 * @param \object $obj
+	 * @param object $obj
 	 * @param string  $key
 	 * @param mixed   $value
 	 */
