@@ -72,7 +72,7 @@ class Marshal{
 			$obj = get_object_vars($obj);
 		}
 		if(is_array($obj)){
-			return array_map('self::objToArray', $obj);
+			return array_map([self::class, 'objToArray'], $obj);
 		}
 
 		return $obj;
