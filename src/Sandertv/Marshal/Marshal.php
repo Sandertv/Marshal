@@ -84,15 +84,14 @@ class Marshal{
 	 * @return object
 	 */
 	private static function processMarshalTags(object $obj) : object{
-		$c = clone($obj);
-		$refl = new \ReflectionObject($c);
+		$c = new \stdClass();
+		$refl = new \ReflectionObject($obj);
 		foreach($refl->getProperties() as $property){
 			if(!$property->isPublic()){
 				continue;
 			}
 			$propertyName = $property->name;
-			$value = $property->getValue($c);
-			unset($c->{$propertyName});
+			$value = $property->getValue($obj);
 			// Cast the property name to a string because an array with numeric indexes casted to an object may have
 			// integer keys, which causes issues.
 			$tags = DataProcessor::parseDocComment((string) $refl->getProperty((string) $propertyName)->getDocComment());
